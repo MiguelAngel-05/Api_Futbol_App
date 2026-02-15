@@ -359,3 +359,22 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`🚀 Servidor BetBuddy corriendo en http://localhost:${PORT}`);
 });
+
+app.get('/api/matches/:id', async (req, res) => {
+  const { id } = req.params;
+
+  const match = await db.query(
+    'SELECT * FROM matches WHERE id = $1',
+    [id]
+  );
+
+  const events = await db.query(
+    'SELECT * FROM match_events WHERE match_id = $1 ORDER BY minute ASC',
+    [id]
+  );
+
+  res.json({
+    match: match.rows[0],
+    events: events.rows
+  });
+});
