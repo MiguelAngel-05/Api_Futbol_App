@@ -33,7 +33,9 @@ async function awaitInit(req, res, next) {
         res.status(503).json({ error: "Servicio inicializándose, por favor reintente", details: err.message });
     }
 }
-app.use('/api', awaitInit);
+app.use('/api/matches', awaitInit);
+app.use('/api/league', awaitInit);
+app.use('/api/simulation', awaitInit);
 
 const SECRET_KEY = process.env.JWT_SECRET || "mi_clave_secreta_por_defecto_cambiame";
 
