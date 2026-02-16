@@ -379,25 +379,3 @@ app.get('/api/matches/:id', async (req, res) => {
   });
 });
 
-app.get('/api/messages/global', async (req, res) => {
-  const history = sim.db.messagesGlobal || [];
-  res.json(history);
-});
-
-app.post('/api/messages/global', async (req, res) => {
-  const { username, text } = req.body;
-  if (!username || !text || text.trim() === '') {
-    return res.status(400).json({ error: "Datos faltantes o texto vacío" });
-  }
-
-  const newMessage = {
-    username,
-    text,
-    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-  };
-
-  sim.db.messagesGlobal = sim.db.messagesGlobal || [];
-  sim.db.messagesGlobal.push(newMessage);
-
-  res.json(newMessage);
-});
